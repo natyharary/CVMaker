@@ -10,6 +10,10 @@ readFile - reads the file content into data structure
 parseData - parses the file
 =============================================================================== */
 
+import de.erichseifert.gral.data.DataSeries;
+import de.erichseifert.gral.data.DataTable;
+import de.erichseifert.gral.plots.XYPlot;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -121,6 +125,32 @@ public class application {
 
     // TODO CONTINUE FROM HERE!!! USE THE DATA COLLECTED BY parseData TO MAKE SOME NEAT GRAPHS!
     public static void graphData() {
+        // Generate data
+        DataTable data = new DataTable(Double.class, Double.class);
+
+        // Create data series
+        DataSeries seriesLog = new DataSeries(data, 0, 2, 3, 4);
+        DataSeries seriesLin = new DataSeries(data, 0, 1, 5);
+
+        // Create new xy-plot
+        XYPlot plot = new XYPlot(seriesLog, seriesLin);
+
+
+        // TODO THIS IS FOR JPG EXPORT
+/*        private byte[] getJpg() throws IOException {
+            BufferedImage bImage = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = (Graphics2D) bImage.getGraphics();
+            DrawingContext context = new DrawingContext(g2d);
+            PiePlot plot = getPlot();
+            plot.draw(context);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            DrawableWriter wr = DrawableWriterFactory.getInstance().get("image/jpeg");
+            wr.write(plot, baos, 800, 600);
+            baos.flush();
+            byte[] bytes = baos.toByteArray();
+            baos.close();
+            return bytes;
+        }*/
 
     }
 }
