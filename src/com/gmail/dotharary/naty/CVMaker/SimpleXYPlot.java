@@ -32,17 +32,17 @@ public class SimpleXYPlot extends ExamplePanel {
     @SuppressWarnings("unchecked")
     public SimpleXYPlot() {
         // Generate data
-        DataTable data = new DataTable(Double.class, Double.class, Double.class,
-                Double.class, Double.class, Double.class);
+        /*DataTable data = new DataTable(Double.class, Double.class, Double.class,
+                Double.class, Double.class, Double.class); */
+        DataTable data = new DataTable(Double.class, Double.class);
         for (double x = 1.0; x <= 400.0; x *= 1.5) {
             double x2 = x/5.0;
-            data.add(x2, -Math.sqrt(x2) + 5.0,  5.0*Math.log10(x2),
-                    random.nextDouble() + 1.0, random.nextDouble() + 0.5, 1.0 + 2.0*random.nextDouble());
+            data.add(x2, -Math.sqrt(x2) + 5.0);
         }
 
         // Create data series
-        DataSeries seriesLog = new DataSeries(data, 0, 2, 3, 4);
-        DataSeries seriesLin = new DataSeries(data, 0, 1, 5);
+        DataSeries seriesLog = new DataSeries(data, 0, 1);
+        DataSeries seriesLin = new DataSeries(data, 0, 1);
 
         // Create new xy-plot
         XYPlot plot = new XYPlot(seriesLog, seriesLin);

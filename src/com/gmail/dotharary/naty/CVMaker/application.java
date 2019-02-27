@@ -12,8 +12,21 @@ parseData - parses the file
 
 import de.erichseifert.gral.data.DataSeries;
 import de.erichseifert.gral.data.DataTable;
+import de.erichseifert.gral.graphics.Insets2D;
+import de.erichseifert.gral.graphics.Label;
+import de.erichseifert.gral.graphics.Orientation;
 import de.erichseifert.gral.plots.XYPlot;
+import de.erichseifert.gral.plots.axes.AxisRenderer;
+import de.erichseifert.gral.plots.axes.LogarithmicRenderer2D;
+import de.erichseifert.gral.plots.lines.DiscreteLineRenderer2D;
+import de.erichseifert.gral.plots.points.DefaultPointRenderer2D;
+import de.erichseifert.gral.plots.points.PointRenderer;
+import de.erichseifert.gral.plots.points.SizeablePointRenderer;
+import de.erichseifert.gral.ui.InteractivePanel;
+import de.erichseifert.gral.util.GraphicsUtils;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -21,15 +34,21 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
+
 public class application {
+
+    private static final Color COLOR1 = ;
 
     public static void main(String[] args) {
         String[] inputArgs = userInput();
         ArrayList readLines = readFile(inputArgs[1], inputArgs[0]);
         ArrayList returnedLists = parseData(readLines, inputArgs[2]);
         graphData(returnedLists);
+        /*graphData(returnedLists).showInFrame();*/
     }
 
     // TODO add options to add multiple files
@@ -147,32 +166,88 @@ public class application {
         // Generate data
         DataTable data = new DataTable(Double.class, Double.class);
 
-        // Get numbers of arrayList
-        double num1 = (double) returnedLists.get(0);
+        ArrayList<Double> voltageList = (ArrayList<Double>) returnedLists.get(0);
+        ArrayList<Double> currentList = (ArrayList<Double>) returnedLists.get(1);
+
+        int max = voltageList.size();
+
+        for (int i = 0; i < max; i++) {
+            data.add(voltageList.get(i), currentList.get(i));
+        }
 
         // Create data series
-        DataSeries seriesVoltage = new DataSeries(data, (int) num1);
-        DataSeries seriesCurrent = new DataSeries(data, 0, 1, 2);
+        // TODO MULTIPLE SERIES OPTION TBA
+        DataSeries firstPlot = new DataSeries(data, 0, 1);
 
         // Create new xy-plot
-        XYPlot plot = new XYPlot(seriesVoltage, seriesCurrent);
+        XYPlot plot = new XYPlot(firstPlot);
 
-/*
-        // TODO THIS IS FOR JPG EXPORT
-        private byte[] getJpg() throws IOException {
-            BufferedImage bImage = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = (Graphics2D) bImage.getGraphics();
-            DrawingContext context = new DrawingContext(g2d);
-            PiePlot plot = getPlot();
-            plot.draw(context);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            DrawableWriter wr = DrawableWriterFactory.getInstance().get("image/jpeg");
-            wr.write(plot, baos, 800, 600);
-            baos.flush();
-            byte[] bytes = baos.toByteArray();
-            baos.close();
-            return bytes;
-        }*/
+        // TODO COPIED FROM SIMPLEXYPLOT, LETS SEE WHAT GOES NOW
+        /// Format plot
+        plot.setInsets(new Insets2D.Double(20.0, 40.0, 40.0, 40.0));
+        plot.setBackground(Color.WHITE);
+        plot.getTitle().setText(getDescription());
 
+        // Format plot area
+        plot.getPlotArea().setBackground(new RadialGradientPaint(
+                new Point2D.Double(0.5, 0.5),
+                0.75f,
+                new float[] { 0.6f, 0.8f, 1.0f },
+                new Color[] { new Color(0, 0, 0, 0), new Color(0, 0, 0, 32), new Color(0, 0, 0, 128) }
+        ));
+        plot.getPlotArea().setBorderStroke(null);
+
+        // Format axes
+        AxisRenderer axisRendererX = new LogarithmicRenderer2D();
+        AxisRenderer axisRendererY = plot.getAxisRenderer(XYPlot.AXIS_Y);
+        axisRendererX.setLabel(new de.erichseifert.gral.graphics.Label("Logarithmic axis"));
+        plot.setAxisRenderer(XYPlot.AXIS_X, axisRendererX);
+        // Custom tick labels
+        Map<Double, String> labels = new HashMap<>();
+        labels.put(2.0, "Two");
+        labels.put(1.5, "OnePointFive");
+        axisRendererX.setCustomTicks(labels);
+        // Custom stroke for the x-axis
+        BasicStroke stroke = new BasicStroke(2f);
+        axisRendererX.setShapeStroke(stroke);
+        de.erichseifert.gral.graphics.Label linearAxisLabel = new Label("Linear axis");
+        linearAxisLabel.setRotation(90);
+        axisRendererY.setLabel(linearAxisLabel);
+        // Change intersection point of Y axis
+        axisRendererY.setIntersection(1.0);
+        // Change tick spacing
+        axisRendererX.setTickSpacing(2.0);
+
+        // Format rendering of data points
+        PointRenderer sizeablePointRenderer = new SizeablePointRenderer();
+        sizeablePointRenderer.setColor(GraphicsUtils.deriveDarker(COLOR1));
+        plot.setPointRenderers(firstPlot, sizeablePointRenderer);
+        PointRenderer defaultPointRenderer = new DefaultPointRenderer2D();
+        defaultPointRenderer.setErrorVisible(true);
+
+        // Format data lines
+        DiscreteLineRenderer2D discreteRenderer = new DiscreteLineRenderer2D();
+        discreteRenderer.setColor(COLOR1);
+        discreteRenderer.setStroke(new BasicStroke(
+                3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
+                10.0f, new float[] {3f, 6f}, 0.0f));
+        plot.setLineRenderers(firstPlot, discreteRenderer);
+        // Custom gaps for points
+        discreteRenderer.setGap(2.0);
+        discreteRenderer.setGapRounded(true);
+        // Custom ascending
+        discreteRenderer.setAscentDirection(Orientation.VERTICAL);
+        discreteRenderer.setAscendingPoint(0.5);
+
+        // Add plot to Swing component
+        add(new InteractivePanel(plot), BorderLayout.CENTER);
+    }
+
+    public String getTitle() {
+        return "x-y plot";
+    }
+
+    public static String getDescription() {
+        return "Styled x-y plot with example data";
     }
 }
