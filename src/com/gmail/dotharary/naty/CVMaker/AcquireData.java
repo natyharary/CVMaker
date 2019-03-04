@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 public class AcquireData {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //TODO change returnedLists variable among different methods
         String[] inputArgs = userInput();
         ArrayList readLines = readFile(inputArgs[1], inputArgs[0]);
@@ -143,8 +143,9 @@ public class AcquireData {
         return returnedLists;
     }
 
-    public static void callGraphData (ArrayList returnedLists){
-        new GraphData(returnedLists).showInFrame();
+    public static void callGraphData (ArrayList returnedLists) throws IOException {
+        /*new GraphData(returnedLists).showInFrame();*/ //TODO this is used for windowed graphic test
+        new GraphData(returnedLists);
 
     }
 }
