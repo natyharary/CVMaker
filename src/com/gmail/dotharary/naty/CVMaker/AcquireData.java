@@ -10,8 +10,6 @@ readFile - reads the file content into data structure
 parseData - parses the file
 =============================================================================== */
 
-import de.erichseifert.gral.data.DataTable;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,14 +20,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class application {
+public class AcquireData {
 
     public static void main(String[] args) {
+        //TODO change returnedLists variable among different methods
         String[] inputArgs = userInput();
         ArrayList readLines = readFile(inputArgs[1], inputArgs[0]);
         ArrayList returnedLists = parseData(readLines, inputArgs[2]);
-        graphData(returnedLists);
-        /*graphData(returnedLists).showInFrame();*/
+        callGraphData(returnedLists);
+        /*GraphData(returnedLists).showInFrame();*/
     }
 
     // TODO add options to add multiple files
@@ -144,17 +143,8 @@ public class application {
         return returnedLists;
     }
 
-    public static void graphData(ArrayList returnedLists) {
-        // Generate data
-        DataTable data = new DataTable(Double.class, Double.class);
+    public static void callGraphData (ArrayList returnedLists){
+        new GraphData(returnedLists).showInFrame();
 
-        ArrayList<Double> voltageList = (ArrayList<Double>) returnedLists.get(0);
-        ArrayList<Double> currentList = (ArrayList<Double>) returnedLists.get(1);
-
-        int max = voltageList.size();
-
-        for (int i = 0; i < max; i++) {
-            data.add(voltageList.get(i), currentList.get(i));
-        }
     }
 }
