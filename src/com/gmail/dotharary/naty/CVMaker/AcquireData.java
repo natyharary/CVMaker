@@ -10,7 +10,10 @@ readFile - reads the file content into data structure
 parseData - parses the file
 =============================================================================== */
 
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
@@ -24,11 +27,31 @@ public class AcquireData {
 
     public static void main(String[] args) throws IOException {
         //TODO change returnedLists variable among different methods
+        String filepath = fileChooserWindow();
         String[] inputArgs = userInput();
-        ArrayList readLines = readFile(inputArgs[1], inputArgs[0]);
-        ArrayList returnedLists = parseData(readLines, inputArgs[2]);
+        ArrayList readLines = readFile(filepath);
+        ArrayList returnedLists = parseData(readLines, inputArgs[0]);
         callGraphData(returnedLists);
-        /*GraphData(returnedLists).showInFrame();*/
+    }
+
+    private static void mainMenu(){
+
+    }
+
+    private static String fileChooserWindow() {
+
+        // Uses filechooser to help users choose input files
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+        int returnOpen = jfc.showOpenDialog(null);
+        //int returnSave = jfc.showSaveDialog(null); // TODO ADD SAVE OPTION
+
+        if (returnOpen == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            String inputFilePath = selectedFile.getAbsolutePath();
+            return inputFilePath;
+        }
+        return null;
     }
 
     // TODO add options to add multiple files
@@ -43,20 +66,21 @@ public class AcquireData {
 
         // Enter user input loop. This will loop until user inputs done as filename
         while (!addmore.equals("N")) {
-            // Take user input for first filename. This will loop until Done or done is entered
+
+    /*        // Take user input for first filename. This will loop until Done or done is entered
             System.out.println("Please input file name and then Enter:\n(example: for Nitrogen.txt, type Nitrogen) to add to graph, or Done to continue:");
-            /*inputArgs[0] = reader.nextLine();*/ //TODO UNDO THIS LATER
+            *//*inputArgs[0] = reader.nextLine();*//* //TODO UNDO THIS LATER
             inputArgs[0] = "test.txt";
 
             // Take file path from the user, for the filename specified
             System.out.println("Please input the path for the file " + inputArgs[0] + " and then Enter\n" +
                     "(example: for file C:\\MyFolder\\data\\Nitrogen.txt, type C:\\MyFolder\\Results)");
-            /*inputArgs[1] = reader.nextLine();*/ // TODO UNDO TIS LATER
-            inputArgs[1] = "C:\\CVMaker_data";
+            *//*inputArgs[1] = reader.nextLine();*//* // TODO UNDO TIS LATER
+            inputArgs[1] = "C:\\CVMaker_data";*/
 
             System.out.println("For the file: " + inputArgs[1] + "\\" + inputArgs[0] + ",\nPlease input cycle # to be used");
             /*inputArgs[2] = (reader.nextLine());*/ //TODO UNDO TIS LATER
-            inputArgs[2] = "1";
+            inputArgs[0] = "1";
 
             // TODO add option for multiple cycle choice
             System.out.println("Do you want to add more files? (Y/N)");
@@ -67,9 +91,9 @@ public class AcquireData {
     }
 
     // Reads the file specified by the user
-    public static ArrayList<String> readFile(String path, String filename) {
+    public static ArrayList<String> readFile(String filepath) {
         ArrayList<String> readLines = new ArrayList<String>();
-        String file = path + "\\" + filename;
+        String file = filepath;
         Charset charset = Charset.forName("ISO-8859-1"); // an ASCII encoding that doesnt throw IOerrors
         // TODO why try?
         try (BufferedReader reader = (BufferedReader) Files.newBufferedReader(Paths.get(file), charset)) {
@@ -108,17 +132,6 @@ public class AcquireData {
 
             // Select only the lines which contain the cycle the user chose, which is userCycle
             if (lineCycle == userCycle) {
-
-
-                /* // TODO THIS IS AN OLD PIECE OF CODE, BACK WHEN I USED int AS THE DATA TYPE OF THE DATA SERIES
-                 *//* Adding Voltage to voltageList first
-                This is a bit hairy: I had to convert bigDecimal -> double -> int, because the number is in scientific notation
-                (requires bigDecimal) and converting bigDecimal to int directly gives 0 value*//*
-                BigDecimal decimalVolt = new BigDecimal(parsedLine.get(7));
-                double doubleVoltage = decimalVolt.doubleValue();
-                int intVoltage = (int) doubleVoltage;
-                voltageList.add(intVoltage);
-                */
 
                 //Assigning variables out of parsedLine to ArrayLists called voltageList, currentList and cycleList,
                 double doubleVoltage = Double.parseDouble(parsedLine.get(7));
