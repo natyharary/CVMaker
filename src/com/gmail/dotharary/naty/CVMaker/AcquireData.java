@@ -34,10 +34,6 @@ public class AcquireData {
         callGraphData(returnedLists);
     }
 
-    private static void mainMenu(){
-
-    }
-
     private static String fileChooserWindow() {
 
         // Uses filechooser to help users choose input files
