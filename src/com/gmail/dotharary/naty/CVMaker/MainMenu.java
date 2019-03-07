@@ -18,5 +18,12 @@ public class MainMenu {
         frame.getContentPane().add(panel);
         frame.pack();
         frame.setVisible(true);
+
+
+        // Import this from different places:
+        openButtonListener.PathContainer pathContainer = new openButtonListener.PathContainer();
+
+        String str = openButtonListener.PathContainer.addPath(); //TODO WHAT SHOULD I PUT HERE? I WANT TO RETURN IT
+        System.out.println(openButtonListener.PathContainer.addPath(str));
     }
 }

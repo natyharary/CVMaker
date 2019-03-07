@@ -5,15 +5,16 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 // Listener for opening input file button
-class openButtonListener implements ActionListener {
+public class openButtonListener implements ActionListener {
     public String inputFilePath;
 
     public void actionPerformed(ActionEvent event) {
         String tempFilePath = fileChooserWindow();
-        inputFilePath = tempFilePath;
-        //TODO FIND A WAY TO RETURN THE STRING FROM HERE! tempFilePath gets the string but I cant return it to the panel
+        /*inputFilePath = tempFilePath;*/
+        PathContainer.addPath(tempFilePath);
     }
 
     public String fileChooserWindow() {
@@ -28,6 +29,16 @@ class openButtonListener implements ActionListener {
             return tempFilePath;
         }
         return null;
+    }
+
+    ///////// Diff file
+    public static class PathContainer {
+        public static ArrayList<String> paths;
+
+        public static ArrayList<String> addPath(String tempFilePath) {
+            paths.add(tempFilePath);
+            return paths; //TODO I WANT TO RETURN THE ABSOLUTEPATH FROM HERE
+        }
     }
 
 /*    public String getFilePath(){
