@@ -1,0 +1,11 @@
+@startuml
+MainMenu -> MainMenuPanel: new
+MainMenuPanel -> OpenButtonListener: new, as open button
+MainMenuPanel -> GenerateButtonListener: new, as generate button
+OpenButtonListener --> paths_ArrayList: gets user input as filePath variable
+GenerateButtonListener --> AcquireData: calls readLines method \n and parseData method
+GenerateButtonListener --> GraphData: transfers parsedLines to generate graph
+
+paths_ArrayList --> GenerateButtonListener: gets filePath variable
+AcquireData --> GenerateButtonListener: reads the file in readLines method \n gets parsedLines array after parseData method
+@enduml
