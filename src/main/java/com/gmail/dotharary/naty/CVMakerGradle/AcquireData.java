@@ -17,13 +17,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import static com.gmail.dotharary.naty.CVMakerGradle.MainMenu.data1;
+
 
 public class AcquireData {
 
     // Reads the file specified by the user
-    public static ArrayList<String> readFile(String filepath) {
+    public static ArrayList readFile(String inputFile) {
         ArrayList<String> readLines = new ArrayList<String>();
-        String file = filepath;
+        String file = inputFile;
         Charset charset = Charset.forName("ISO-8859-1"); // an ASCII encoding that doesnt throw IOerrors
 
         try (BufferedReader reader = (BufferedReader) Files.newBufferedReader(Paths.get(file), charset)) {
@@ -34,10 +36,11 @@ public class AcquireData {
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
-        return readLines;
+        data1.setReadLines(readLines);
+        return null;
     }
 
-    public static ArrayList<ArrayList<Double>> parseData(ArrayList readLines, String inputtedUserCycle) {
+    public static void parseData(ArrayList readLines, String inputtedUserCycle) {
         // Defining ArrayLists for data
         ArrayList<Double> voltageList = new ArrayList<>();
         ArrayList<Double> currentList = new ArrayList<>();
@@ -48,7 +51,6 @@ public class AcquireData {
 
         // TODO change the counter later to filter out according to the "mode ox/red" parameters line
         for (int counter = 56; counter < readLines.size(); counter++) {
-            /*            String currentLine = (String) readLines.get(counter); //currentLine holds the current line now read from the readLines ArrayList*/
 
             ArrayList<String> parsedLine = new ArrayList<>();
 
@@ -83,12 +85,7 @@ public class AcquireData {
         returnedLists.add(currentList);
         returnedLists.add(cycleList);
 
-        return returnedLists;
-    }
-
-    public static void callGraphData (ArrayList returnedLists) throws IOException {
-        /*new GraphData(returnedLists).showInFrame();*/ //TODO this is used for windowed graphic test
-        new GraphData(returnedLists);
-
+        data1.setParsedLines(returnedLists);
+        return;
     }
 }

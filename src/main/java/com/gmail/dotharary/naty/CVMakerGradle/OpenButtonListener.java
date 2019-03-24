@@ -7,13 +7,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.gmail.dotharary.naty.CVMakerGradle.MainMenu.data1;
+
 // Listener for opening input file button
 public class OpenButtonListener implements ActionListener {
     static ArrayList<String> paths = new ArrayList<String>();
 
     public void actionPerformed(ActionEvent event) {
         String inputFilePath = fileChooserWindow();
-        addPath(inputFilePath);
+        data1.setInputFilePath(inputFilePath); //Add inputFilePath to data object
     }
 
     public String fileChooserWindow() {

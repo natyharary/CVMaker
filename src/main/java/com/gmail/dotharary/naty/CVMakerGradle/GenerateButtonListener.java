@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.gmail.dotharary.naty.CVMakerGradle.AcquireData.*;
-import static com.gmail.dotharary.naty.CVMakerGradle.AcquireData.callGraphData;
+import static com.gmail.dotharary.naty.CVMakerGradle.MainMenu.data1;
 
 public class GenerateButtonListener implements ActionListener {
 
@@ -14,19 +14,24 @@ public class GenerateButtonListener implements ActionListener {
     // parse data and generate a graph
     public void actionPerformed(ActionEvent event) {
 
-        // TODO temporarily here. inputArgs[0] specifies which cycle to use
-        String[] inputArgs = new String[3];
-        inputArgs[0] = "1";
+        // Set cycle number
+        //TODO make it user input and not hard-coded
+        data1.setCycleNumber("1");
 
-        // Get filePath for first file from paths list at OpenButtonListener
-        String filePath = OpenButtonListener.paths.get(0);
-        ArrayList readLines = readFile(filePath);
-        ArrayList returnedLists = parseData(readLines, inputArgs[0]);
+        // Call methods in AcquireData. Get variables from class before calling each method
+        String inputFile = data1.getInputFilePath();
+        AcquireData.readFile(inputFile);
+
+        ArrayList readLines = data1.getReadLines();
+        String cycle = data1.getCycleNumber();
+        AcquireData.parseData(readLines, cycle);
+
         try {
-            callGraphData(returnedLists);
+            new GraphData(data1.getParsedLines());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 }
