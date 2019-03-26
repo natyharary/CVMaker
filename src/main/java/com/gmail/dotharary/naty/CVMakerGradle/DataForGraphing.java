@@ -2,7 +2,7 @@ package com.gmail.dotharary.naty.CVMakerGradle;
 
 import java.util.ArrayList;
 
-public class DataForGraphing {
+public class DataForGraphing implements DataObjectStructure {
     String inputFilePath;
     String outputFilePath;
     String cycleNumber;
