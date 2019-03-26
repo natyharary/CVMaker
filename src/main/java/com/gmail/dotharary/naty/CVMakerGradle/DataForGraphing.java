@@ -9,12 +9,18 @@ public class DataForGraphing {
     ArrayList<String> readLines;
     ArrayList<ArrayList<Double>> parsedLines;
 
-    static int count =+ 1; //Indicates the number of instances
+    //TODO possible unneccesary, remove later
+    /*static int count; //Indicates the number of instances
+
+    public DataForGraphing(){
+        count++;
+    }
 
     // Indicates the number of DataForGraphing instances
     public static int getCount(){
         return count;
     }
+*/
 
     // Getter setter methods for all instance variables
     public void setInputFilePath(String userInputFilePath){

@@ -17,7 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import static com.gmail.dotharary.naty.CVMakerGradle.MainMenu.data1;
+import static com.gmail.dotharary.naty.CVMakerGradle.MainMenu.data0;
 
 
 public class AcquireData {
@@ -36,7 +36,7 @@ public class AcquireData {
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
-        data1.setReadLines(readLines);
+        data0.setReadLines(readLines);
         return null;
     }
 
@@ -85,7 +85,7 @@ public class AcquireData {
         returnedLists.add(currentList);
         returnedLists.add(cycleList);
 
-        data1.setParsedLines(returnedLists);
+        data0.setParsedLines(returnedLists);
         return;
     }
 }

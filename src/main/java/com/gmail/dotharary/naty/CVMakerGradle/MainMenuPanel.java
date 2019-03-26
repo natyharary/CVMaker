@@ -5,7 +5,11 @@ import java.awt.*;
 
 public class MainMenuPanel extends JPanel {
     private JLabel welcomeLabel, inputLabel;
-    private JButton open;
+    private JButton open1;
+    private JButton open2;
+    private JButton open3;
+    private JButton open4;
+    private JButton open5;
     private JButton generate;
     private JTextField filePath;
 
@@ -13,9 +17,17 @@ public class MainMenuPanel extends JPanel {
         welcomeLabel = new JLabel("Welcome to CVMaker! Making your CVs easier since 2019.");
         inputLabel = new JLabel("Please input source .mpt files to generate CV graphs from:");
 
-        // Button for opening file
-        open = new JButton("Open file");
-        open.addActionListener(new OpenButtonListener());
+        // Buttons for opening file
+        open1 = new JButton("Open file 1");
+        open1.addActionListener(new OpenButtonListener());
+        open2 = new JButton("Open file 2");
+        open2.addActionListener(new OpenButtonListener());
+        open3 = new JButton("Open file 3");
+        open3.addActionListener(new OpenButtonListener());
+        open4 = new JButton("Open file 4");
+        open4.addActionListener(new OpenButtonListener());
+        open5 = new JButton("Open file 5");
+        open5.addActionListener(new OpenButtonListener());
 
         // Button for generating graph
         generate = new JButton("Generate");
@@ -23,7 +35,11 @@ public class MainMenuPanel extends JPanel {
 
         add(welcomeLabel);
         add(inputLabel);
-        add(open);
+        add(open1);
+        add(open2);
+        add(open3);
+        add(open4);
+        add(open5);
         add(generate);
 
         setPreferredSize(new Dimension(750, 200));
