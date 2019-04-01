@@ -3,7 +3,7 @@ package com.gmail.dotharary.naty.CVMakerGradle;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainMenuPanel extends JPanel {
+public class FileSelectPanel extends JPanel {
     private JLabel welcomeLabel, inputLabel;
     private JButton open1;
     private JButton open2;
@@ -13,7 +13,8 @@ public class MainMenuPanel extends JPanel {
     private JButton generate;
     private JTextField filePath;
 
-    public MainMenuPanel() {
+    public FileSelectPanel() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         welcomeLabel = new JLabel("Welcome to CVMaker! Making your CVs easier since 2019.");
         inputLabel = new JLabel("Please input source .mpt files to generate CV graphs from:");
 
@@ -35,11 +36,13 @@ public class MainMenuPanel extends JPanel {
 
         add(welcomeLabel);
         add(inputLabel);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(open1);
         add(open2);
         add(open3);
         add(open4);
         add(open5);
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(generate);
 
         setPreferredSize(new Dimension(750, 200));

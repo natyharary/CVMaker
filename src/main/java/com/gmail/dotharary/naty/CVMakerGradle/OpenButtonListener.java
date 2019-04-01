@@ -5,13 +5,11 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 
 import static com.gmail.dotharary.naty.CVMakerGradle.MainMenu.data0;
 
 // Listener for opening input file button
 public class OpenButtonListener implements ActionListener {
-    static ArrayList<String> paths = new ArrayList<String>();
 
     public void actionPerformed(ActionEvent event) {
         String inputFilePath = fileChooserWindow();
@@ -30,11 +28,5 @@ public class OpenButtonListener implements ActionListener {
             return inputFilePath;
         }
         return null;
-    }
-
-    // Adding path chosen by user in fileChooserWindow method,
-    public ArrayList<String> addPath(String inputFilePath) {
-        paths.add(inputFilePath);
-        return paths;
     }
 }

@@ -1,5 +1,6 @@
 package com.gmail.dotharary.naty.CVMakerGradle;
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 // TODO consider using the intellij GUI designer to make a better menu
@@ -28,9 +29,11 @@ public class MainMenu {
         JFrame frame = new JFrame("CVMaker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        MainMenuPanel panel = new MainMenuPanel();
+        JTabbedPane tp = new JTabbedPane();
+        tp.addTab("Select Files", new FileSelectPanel());
+        tp.addTab("Style", new StylePanel());
 
-        frame.getContentPane().add(panel);
+        frame.getContentPane().add(tp);
         frame.pack();
         frame.setVisible(true);
     }
